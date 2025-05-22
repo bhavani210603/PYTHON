@@ -1,17 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ChatBot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Assistant</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+        
+        .chat-container {
+            width: 500px;
+            height: 600px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            margin: 0;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .clear-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-message {
+            align-items: flex-end;
+        }
+        
+        .assistant-message {
+            align-items: flex-start;
+        }
+        
+        .message-content {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin: 5px 0;
+            position: relative;
+        }
+        
+        .user-message .message-content {
+            background-color: #e1f5fe;
+        }
+        
+        .assistant-message .message-content {
+            background-color: #f0f0f0;
+        }
+        
+        .message-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>ChatBot</h1>
-    <form action="/chat" method="post">
-        <input type="text" name="user_input" placeholder="Type your message" required>
-        <button type="submit">Send</button>
-    </form>
-
-    {% if response %}
-        <p>{{ response }}</p>
-    {% endif %}
+    <div class="chat-container">
+        <div class="header">
+            <h1>Chat with Assistant</h1>
+        </div>
+        
+        <div class="chat-messages">
+            {% for message in chat_history %}
+                <div class="message {{ message.sender }}-message">
+                    <div class="message-content">
+                        <strong>{{ message.sender|title }}:</strong> {{ message.message }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <form method="post" class="input-area">
+            <input type="text" name="user_input" placeholder="Type your message..." required autofocus>
+            <button type="submit">Send</button>
+        </form>
+    </div>
 </body>
 </html>
